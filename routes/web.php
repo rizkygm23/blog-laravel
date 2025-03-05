@@ -1,7 +1,30 @@
 <?php
 
+use App\Models\Post;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
+
+// class Post {
+//     public static function all() {
+//         return     [
+//             [
+//                 'id' => 1,
+//                 'title' => 'Judul Post Pertama',
+//                 'slug' => 'judul-post-pertama',
+//                 'author' => 'Muhammad Rizky',
+//                 'body' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae est similique inventore suscipit doloremque! Reprehenderit eaque, sint distinctio voluptate, ratione rerum ipsum accusantium porro aliquid in esse voluptas magnam dolorem!'
+//             ],
+//             [
+//                 'id' => 2,
+//                 'slug' => 'judul-post-kedua',
+//                 'title' => 'Judul Post Kedua',
+//                 'author' => 'Muhammad Rizky',
+//                 'body' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae est similique inventore suscipit doloremque! Reprehenderit eaque, sint distinctio voluptate, ratione rerum ipsum accusantium porro aliquid in esse voluptas magnam dolorem!'
+//             ]
+//         ];   
+//     }
+// }
+
 
 Route::get('/', function () {
     return view('home', [ 'title' => 'Home']);
@@ -11,54 +34,22 @@ Route::get('/about', function () {
 });
 
 Route::get('/posts', function () {
-    return view('posts', [
-        'posts' => [
-            [   'id' => 1,
-                'slug' => 'judul-post-pertama',
-                'title' => 'Judul Post Pertama',
-                'author' => 'Muhammad Rizky',
-                'body' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae est similique inventore suscipit doloremque! Reprehenderit eaque, sint distinctio voluptate, ratione rerum ipsum accusantium porro aliquid in esse voluptas magnam dolorem!'
-            ],
-            [   'id' => 2,
-                'slug' => 'judul-post-kedua',
-                'title' => 'Judul Post Kedua',
-                'author' => 'Muhammad Rizky',
-                'body' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae est similique inventore suscipit doloremque! Reprehenderit eaque, sint distinctio voluptate, ratione rerum ipsum accusantium porro aliquid in esse voluptas magnam dolorem!'
-            ]
-            ],
-            'title' => 'Blog'
-    ]); 
+    return view('posts', ['title' => 'blog','posts' => Post::all()]);
 });
 
 
 
 Route::get('/post/{slug}', function($slug) {
-    $posts = [
-        [
-            'id' => 1,
-            'title' => 'Judul Post Pertama',
-            'slug' => 'judul-post-pertama',
-            'author' => 'Muhammad Rizky',
-            'body' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae est similique inventore suscipit doloremque! Reprehenderit eaque, sint distinctio voluptate, ratione rerum ipsum accusantium porro aliquid in esse voluptas magnam dolorem!'
-        ],
-        [
-            'id' => 2,
-            'slug' => 'judul-post-kedua',
-            'title' => 'Judul Post Kedua',
-            'author' => 'Muhammad Rizky',
-            'body' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae est similique inventore suscipit doloremque! Reprehenderit eaque, sint distinctio voluptate, ratione rerum ipsum accusantium porro aliquid in esse voluptas magnam dolorem!'
-        ]
-    ];
+    
 
-    $post = Arr::first($posts, function ($post) use ($slug) {
-        return $post['slug'] == $slug;
-    });
+    $post = Post::find($slug);
+
 
     if (!$post) {
         abort(404, 'Post not found');
     }
 
-    // dd($post);
+    // dd($post);   `   
     return view('post', [
         'post' => $post,
         'title' =>'single post'
