@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 
@@ -39,10 +40,10 @@ Route::get('/posts', function () {
 
 
 
-Route::get('/post/{slug}', function($slug) {
+Route::get('/post/{post:slug}', function( Post $post) {
     
 
-    $post = Post::find($slug);
+   
 
 
     if (!$post) {
@@ -53,6 +54,22 @@ Route::get('/post/{slug}', function($slug) {
     return view('post', [
         'post' => $post,
         'title' =>'single post'
+    ]);
+});
+Route::get('/author/{user}', function( User $user) {
+    
+
+   
+
+
+    if (!$user) {
+        abort(404, 'Post not found');
+    }
+
+    // dd($post);   `   
+    return view('posts', [
+        'posts' => $user->posts,
+        'title' =>'artikel by '.$user->name
     ]);
 });
 

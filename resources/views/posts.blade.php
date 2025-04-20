@@ -5,7 +5,7 @@
         <article class="py-8 max-w-screen-md border-b border-grey-200">
             <h1 class="mb-1 text-3xl tracking-tight text-gray-900 font-bold">{{ $post['title'] }}</h1>
             <div class="text-base text-grey-500 ">
-                <a href="#"> {{ $post['author'] }}</a> | 12 Januari 2022
+                <a class="hover:underline" href="/author/{{ $post->author->id }}"> {{ $post->author->name }}</a> | {{ $post->created_at->diffForHumans() }}
             </div>
             <p class="my-4 font-light">
                 {{Str::Limit($post['body'], 50)}}
